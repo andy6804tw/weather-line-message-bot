@@ -4,18 +4,16 @@ import cors from 'cors';
 import morgan from 'morgan';
 import httpStatus from 'http-status';
 import expressValidation from 'express-validation';
-import APPError from '../server/helper/AppError';
+import APPError from '../server/helpers/AppError';
 import config from './config';
 import index from '../server/routes/index.route';
-
-
 
 
 const app = express();
 
 // parse body params and attache them to req.body
 const parser = bodyParser.json({
-  verify: function (req, res, buf, encoding) {
+  verify (req, res, buf, encoding) {
     req.rawBody = buf.toString(encoding);
   }
 });
@@ -45,7 +43,7 @@ app.use('/', index);
 
 // if error is not an instanceOf APIError, convert it.
 app.use((err, req, res, next) => {
-  console.log('1')
+  console.log('1');
   let errorMessage;
   let errorCode;
   let errorStatus;
@@ -64,7 +62,7 @@ app.use((err, req, res, next) => {
 
 // error handler, send stacktrace only during development 錯誤後最後才跑這邊
 app.use((err, req, res, next) => {
-  console.log('2')
+  console.log('2');
   res.status(err.status).json({
     message: err.isPublic ? err.message : httpStatus[err.status],
     code: err.code ? err.code : httpStatus[err.status],
