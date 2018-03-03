@@ -1,6 +1,7 @@
+import express from 'express';
 import config from './config/config';
 import app from './config/express';
-import express from 'express';
+
 
 if (!module.parent) {
   // listen on port config.port

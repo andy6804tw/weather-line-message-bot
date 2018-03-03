@@ -68,8 +68,7 @@ const getWeatherMessage = (city) => {
         return;
       }
       const $ = cheerio.load(body); // 載入 body
-
-      // 在終端機(console)列出結果
+      // 回傳結果
       resolve($.text());
     });
   });

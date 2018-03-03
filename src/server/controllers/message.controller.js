@@ -1,6 +1,7 @@
 import async from 'async';
 
 import cwbWeatherHelperModel from '../modules/cwbWeatherHelper.module';
+import cwbEarthquack from '../modules/cwbEarthquack.module';
 import uploadImgur from '../lib/uploadImgur';
 
 const replyMessage = (event) => {
@@ -15,22 +16,6 @@ const replyMessage = (event) => {
     const city = event.message.text.split('概況')[0].trim();
     async.parallel({
       message(callback) {
-        // 取得天氣小幫手訊息
-        // async.waterfall([
-        //   (next) => {
-        //     const res = cwbWeatherHelperModel.getCityToken(city);
-        //     next(null, res);
-        //   },
-        //   (res1, next) => {
-        //     cwbWeatherHelperModel.getWeatherMessage(city).then((res) => {
-        //       next(null, res);
-        //     });
-        //   }
-        // ], (err, rst) => {
-        //   if (err) throw err; // 匯集 err1 err2 err3
-        //   console.log(rst); // 收到的 rst = 上面的 result4
-        //   callback(null, rst);
-        // });
         cwbWeatherHelperModel.getWeatherMessage(city).then((res) => {
           callback(null, res);
         });
@@ -51,16 +36,43 @@ const replyMessage = (event) => {
           },
           { type: 'text', text: results.message }
         ]);
+      } else {
+        event.reply([
+          {
+            type: 'image',
+            originalContentUrl: results.image.url,
+            previewImageUrl: results.image.url
+          },
+          { type: 'text', text: results.message }
+        ]);
       }
-      event.reply([
-        {
-          type: 'image',
-          originalContentUrl: results.image.url,
-          previewImageUrl: results.image.url
-        },
-        { type: 'text', text: results.message }
-      ]);
     });
+  } else if (event.message.text.indexOf('地震') > -1) {
+    async.waterfall([
+      (callback) => {
+        cwbEarthquack.getPageUrl().then((result) => {
+          callback(null, result);
+        });
+      },
+      (pageUrl, callback) => {
+        cwbEarthquack.getImage(pageUrl).then((result) => {
+          callback(null, result);
+        });
+      }
+    ], (err, result) => {
+      if (!result.success) {
+        // 團片上傳失敗回應網址
+        event.reply({ type: 'text', text: result.url });
+      } else {
+        // 上傳成功回覆圖片
+        event.reply({
+          type: 'image',
+          originalContentUrl: result.url,
+          previewImageUrl: result.url
+        });
+      }
+    });
+    //event.reply({ type: 'text', text: '哪裡' });
   }
 };
 const test = (req, res) => {
