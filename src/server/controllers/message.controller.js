@@ -2,6 +2,8 @@ import async from 'async';
 
 import cwbWeatherHelperModel from '../modules/cwbWeatherHelper.module';
 import cwbEarthquack from '../modules/cwbEarthquack.module';
+import cwbCurrentWeather from '../modules/cwbCurrentWeather.module';
+import cwbCurrentUva from '../modules/cwbCurrentUva.module';
 import uploadImgur from '../lib/uploadImgur';
 
 const replyMessage = (event) => {
@@ -48,18 +50,7 @@ const replyMessage = (event) => {
       }
     });
   } else if (event.message.text.indexOf('地震') > -1) {
-    async.waterfall([
-      (callback) => {
-        cwbEarthquack.getPageUrl().then((result) => {
-          callback(null, result);
-        });
-      },
-      (pageUrl, callback) => {
-        cwbEarthquack.getImage(pageUrl).then((result) => {
-          callback(null, result);
-        });
-      }
-    ], (err, result) => {
+    cwbEarthquack.getImage().then((result) => {
       if (!result.success) {
         // 團片上傳失敗回應網址
         event.reply({ type: 'text', text: result.url });
@@ -72,7 +63,34 @@ const replyMessage = (event) => {
         });
       }
     });
-    //event.reply({ type: 'text', text: '哪裡' });
+  } else if (event.message.text.indexOf('目前天氣') > -1) {
+    cwbCurrentWeather.getImage().then((result) => {
+      if (!result.success) {
+        // 團片上傳失敗回應網址
+        event.reply({ type: 'text', text: result.url });
+      } else {
+        // 上傳成功回覆圖片
+        event.reply({
+          type: 'image',
+          originalContentUrl: result.url,
+          previewImageUrl: result.url
+        });
+      }
+    });
+  } else if (event.message.text.indexOf('紫外線') > -1) {
+    cwbCurrentUva.getImage().then((result) => {
+      if (!result.success) {
+        // 團片上傳失敗回應網址
+        event.reply({ type: 'text', text: result.url });
+      } else {
+        // 上傳成功回覆圖片
+        event.reply({
+          type: 'image',
+          originalContentUrl: result.url,
+          previewImageUrl: result.url
+        });
+      }
+    });
   }
 };
 const test = (req, res) => {
