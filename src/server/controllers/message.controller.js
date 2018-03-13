@@ -4,6 +4,7 @@ import cwbWeatherHelperModel from '../modules/cwbWeatherHelper.module';
 import cwbEarthquack from '../modules/cwbEarthquack.module';
 import cwbCurrentWeather from '../modules/cwbCurrentWeather.module';
 import cwbCurrentUva from '../modules/cwbCurrentUva.module';
+import cwbCurrentAqi from '../modules/cwbCurrentAqi.module';
 import uploadImgur from '../lib/uploadImgur';
 
 const replyMessage = (event) => {
@@ -89,6 +90,39 @@ const replyMessage = (event) => {
           originalContentUrl: result.url,
           previewImageUrl: result.url
         });
+      }
+    });
+  } else if (event.message.text.indexOf('目前空氣') > -1) {
+    async.parallel({
+      image(callback) {
+        // 取得全台空氣品質圖
+        cwbCurrentAqi.getImage().then((resUrl) => {
+          callback(null, resUrl);
+        });
+      },
+      message(callback) {
+        // 取得空氣品質訊息
+        cwbCurrentAqi.getAqiMessage().then((res) => {
+          callback(null, res);
+        });
+      }
+    }, (err, results) => {
+      if (!results.image.success) {
+        event.reply([
+          {
+            type: 'text', text: results.image.url
+          },
+          { type: 'text', text: results.message }
+        ]);
+      } else {
+        event.reply([
+          {
+            type: 'image',
+            originalContentUrl: results.image.url,
+            previewImageUrl: results.image.url
+          },
+          { type: 'text', text: results.message }
+        ]);
       }
     });
   }
