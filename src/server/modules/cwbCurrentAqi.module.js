@@ -5,7 +5,7 @@ import uploadImgur from '../lib/uploadImgur';
 const getAqiMessage = () => {
   return new Promise((resolve, reject) => {
     request({
-      url: 'https://taqm.epa.gov.tw/taqm/aqs.ashx?act=MaintainLine&lang=tw', // 中央氣象局網頁
+      url: 'https://taqm.epa.gov.tw/taqm/aqs.ashx?act=MaintainLine&lang=tw', // 中央氣象空品訊息
       method: 'GET'
     }, (error, response, body) => {
       if (error || !body) {
@@ -17,7 +17,7 @@ const getAqiMessage = () => {
     });
   });
 };
-// 取得紫外線圖(imgur網址)
+// 取得全台空氣品質圖(imgur網址)
 const getImage = () => {
   return new Promise((resolve, reject) => {
     const imgAqi = 'https://taqm.epa.gov.tw/taqm/chart/Pollutant/map.aspx?param=33&hour=0&noarea=true';
