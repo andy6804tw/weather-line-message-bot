@@ -92,7 +92,7 @@ const replyMessage = (event) => {
         });
       }
     });
-  } else if (event.message.text.indexOf('目前空氣') > -1) {
+  } else if (event.message.text.indexOf('空氣品質') > -1) {
     async.parallel({
       image(callback) {
         // 取得全台空氣品質圖
