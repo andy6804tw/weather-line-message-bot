@@ -58,11 +58,7 @@ const replyMessage = (event) => {
           event.reply({ type: 'text', text: result.url });
         } else {
           // 上傳成功回覆圖片
-          event.reply({
-            type: 'image',
-            originalContentUrl: result.url,
-            previewImageUrl: result.url
-          });
+          event.reply({ type: 'image', originalContentUrl: result.url, previewImageUrl: result.url });
         }
       });
     } else if (event.message.text.indexOf('目前天氣') > -1) {
@@ -72,11 +68,7 @@ const replyMessage = (event) => {
           event.reply({ type: 'text', text: result.url });
         } else {
           // 上傳成功回覆圖片
-          event.reply({
-            type: 'image',
-            originalContentUrl: result.url,
-            previewImageUrl: result.url
-          });
+          event.reply({ type: 'image', originalContentUrl: result.url, previewImageUrl: result.url });
         }
       });
     } else if (event.message.text.indexOf('紫外線') > -1) {
@@ -86,11 +78,7 @@ const replyMessage = (event) => {
           event.reply({ type: 'text', text: result.url });
         } else {
           // 上傳成功回覆圖片
-          event.reply({
-            type: 'image',
-            originalContentUrl: result.url,
-            previewImageUrl: result.url
-          });
+          event.reply({ type: 'image', originalContentUrl: result.url, previewImageUrl: result.url });
         }
       });
     } else if (event.message.text.indexOf('空氣品質') > -1) {
