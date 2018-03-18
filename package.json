@@ -1,8 +1,11 @@
 {
-  "name": "restful_api_start_kit",
+  "name": "weather_line_message_bot",
   "version": "1.0.0",
   "main": "src/index.js",
-  "repository": "https://github.com/andy6804tw/RESTful_API_start_kit.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andy6804tw/weather-line-message-bot"
+  },
   "author": "Tsai Yi Lin <andy6804tw@yahoo.com.tw>",
   "license": "MIT",
   "scripts": {
@@ -40,5 +43,17 @@
     "supertest": "^3.0.0",
     "webpack": "^3.9.1",
     "webpack-node-externals": "^1.6.0"
-  }
+  },
+  "description": "ref:https://github.com/boybundit/linebot",
+  "bugs": {
+    "url": "https://github.com/andy6804tw/weather-line-message-bot/issues"
+  },
+  "homepage": "https://github.com/andy6804tw/weather-line-message-bot#readme",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [
+    "line_bot",
+    "weather"
+  ]
 }
