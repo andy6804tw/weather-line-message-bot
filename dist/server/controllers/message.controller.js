@@ -112,7 +112,9 @@ const replyMessage = event => {
           });
         }
       }, (err, results) => {
-        if (!results.image.success) {
+        if (!results.message) {
+          event.reply({ type: 'image', originalContentUrl: results.image.url, previewImageUrl: results.image.url });
+        } else if (!results.image.success) {
           event.reply([{
             type: 'text', text: results.image.url
           }, { type: 'text', text: results.message }]);

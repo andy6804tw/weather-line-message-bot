@@ -25,7 +25,7 @@ const getAqiMessage = () => {
       method: 'GET'
     }, (error, response, body) => {
       if (error || !body) {
-        return;
+        resolve('');
       }
       const $ = _cheerio2.default.load(body); // 載入 body
       // 回傳結果

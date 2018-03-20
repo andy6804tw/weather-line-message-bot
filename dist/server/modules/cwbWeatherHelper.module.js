@@ -81,7 +81,7 @@ const getWeatherMessage = city => {
       method: 'GET'
     }, (error, response, body) => {
       if (error || !body) {
-        reject(error);
+        resolve('');
       }
       const $ = _cheerio2.default.load(body); // 載入 body
       // 回傳結果

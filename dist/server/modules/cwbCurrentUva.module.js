@@ -26,7 +26,7 @@ const getImage = () => {
       method: 'GET'
     }, (error, response, body) => {
       if (error || !body) {
-        return;
+        resolve('');
       }
       const $ = _cheerio2.default.load(body); // 載入 body
       const imgUva = `http://www.cwb.gov.tw/${$('.newpic01 img').eq(6).attr('src')}`; // 爬最外層的 Table(class=BoxTable) 中的 tr
