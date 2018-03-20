@@ -1,13 +1,36 @@
-import async from 'async';
+'use strict';
 
-import cwbWeatherHelperModel from '../modules/cwbWeatherHelper.module';
-import cwbCurrentWeather from '../modules/cwbCurrentWeather.module';
-import cwbCurrentAqi from '../modules/cwbCurrentAqi.module';
-import cwbCurrentUva from '../modules/cwbCurrentUva.module';
-import cwbEarthquack from '../modules/cwbEarthquack.module';
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
+var _async = require('async');
 
-const replyMessage = (event) => {
+var _async2 = _interopRequireDefault(_async);
+
+var _cwbWeatherHelper = require('../modules/cwbWeatherHelper.module');
+
+var _cwbWeatherHelper2 = _interopRequireDefault(_cwbWeatherHelper);
+
+var _cwbCurrentWeather = require('../modules/cwbCurrentWeather.module');
+
+var _cwbCurrentWeather2 = _interopRequireDefault(_cwbCurrentWeather);
+
+var _cwbCurrentAqi = require('../modules/cwbCurrentAqi.module');
+
+var _cwbCurrentAqi2 = _interopRequireDefault(_cwbCurrentAqi);
+
+var _cwbCurrentUva = require('../modules/cwbCurrentUva.module');
+
+var _cwbCurrentUva2 = _interopRequireDefault(_cwbCurrentUva);
+
+var _cwbEarthquack = require('../modules/cwbEarthquack.module');
+
+var _cwbEarthquack2 = _interopRequireDefault(_cwbEarthquack);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const replyMessage = event => {
   if (event.message.type === 'text') {
     console.log(event.message.text);
     if (event.message.text.indexOf('概況') > -1) {
@@ -19,39 +42,33 @@ const replyMessage = (event) => {
 
       // 取得縣市名稱 ex: 臺北市概況 => 臺北市
       const city = event.message.text.split('概況')[0].trim();
-      async.parallel({
+      _async2.default.parallel({
         message(callback) {
-          cwbWeatherHelperModel.getWeatherMessage(city).then((resd) => {
+          _cwbWeatherHelper2.default.getWeatherMessage(city).then(resd => {
             callback(null, resd);
           });
         },
         image(callback) {
           // 取得紅外線雲圖
-          cwbWeatherHelperModel.getImage().then((result) => {
+          _cwbWeatherHelper2.default.getImage().then(result => {
             callback(null, result);
           });
         }
       }, (err, results) => {
         if (!results.image.success) {
-          event.reply([
-            {
-              type: 'text', text: results.image.url
-            },
-            { type: 'text', text: results.message }
-          ]);
+          event.reply([{
+            type: 'text', text: results.image.url
+          }, { type: 'text', text: results.message }]);
         } else {
-          event.reply([
-            {
-              type: 'image',
-              originalContentUrl: results.image.url,
-              previewImageUrl: results.image.url
-            },
-            { type: 'text', text: results.message }
-          ]);
+          event.reply([{
+            type: 'image',
+            originalContentUrl: results.image.url,
+            previewImageUrl: results.image.url
+          }, { type: 'text', text: results.message }]);
         }
       });
     } else if (event.message.text.indexOf('目前天氣') > -1) {
-      cwbCurrentWeather.getImage().then((result) => {
+      _cwbCurrentWeather2.default.getImage().then(result => {
         if (!result.success) {
           // 團片上傳失敗回應網址
           event.reply({ type: 'text', text: result.url });
@@ -61,7 +78,7 @@ const replyMessage = (event) => {
         }
       });
     } else if (event.message.text.indexOf('地震') > -1) {
-      cwbEarthquack.getImage().then((result) => {
+      _cwbEarthquack2.default.getImage().then(result => {
         if (!result.success) {
           // 團片上傳失敗回應網址
           event.reply({ type: 'text', text: result.url });
@@ -71,7 +88,7 @@ const replyMessage = (event) => {
         }
       });
     } else if (event.message.text.indexOf('紫外線') > -1) {
-      cwbCurrentUva.getImage().then((result) => {
+      _cwbCurrentUva2.default.getImage().then(result => {
         if (!result.success) {
           // 團片上傳失敗回應網址
           event.reply({ type: 'text', text: result.url });
@@ -81,16 +98,16 @@ const replyMessage = (event) => {
         }
       });
     } else if (event.message.text.indexOf('空氣品質') > -1) {
-      async.parallel({
+      _async2.default.parallel({
         image(callback) {
           // 取得全台空氣品質圖
-          cwbCurrentAqi.getImage().then((resUrl) => {
+          _cwbCurrentAqi2.default.getImage().then(resUrl => {
             callback(null, resUrl);
           });
         },
         message(callback) {
           // 取得空氣品質訊息
-          cwbCurrentAqi.getAqiMessage().then((res) => {
+          _cwbCurrentAqi2.default.getAqiMessage().then(res => {
             callback(null, res);
           });
         }
@@ -98,21 +115,15 @@ const replyMessage = (event) => {
         if (!results.message) {
           event.reply({ type: 'image', originalContentUrl: results.image.url, previewImageUrl: results.image.url });
         } else if (!results.image.success) {
-          event.reply([
-            {
-              type: 'text', text: results.image.url
-            },
-            { type: 'text', text: results.message }
-          ]);
+          event.reply([{
+            type: 'text', text: results.image.url
+          }, { type: 'text', text: results.message }]);
         } else {
-          event.reply([
-            {
-              type: 'image',
-              originalContentUrl: results.image.url,
-              previewImageUrl: results.image.url
-            },
-            { type: 'text', text: results.message }
-          ]);
+          event.reply([{
+            type: 'image',
+            originalContentUrl: results.image.url,
+            previewImageUrl: results.image.url
+          }, { type: 'text', text: results.message }]);
         }
       });
     } else {
@@ -128,8 +139,7 @@ const test = (req, res) => {
   res.send('測試');
 };
 
-
-export default {
+exports.default = {
   replyMessage,
   test
 };

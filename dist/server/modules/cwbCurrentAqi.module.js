@@ -1,17 +1,33 @@
-import request from 'request';
-import cheerio from 'cheerio';
-import uploadImgur from '../lib/uploadImgur';
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _request = require('request');
+
+var _request2 = _interopRequireDefault(_request);
+
+var _cheerio = require('cheerio');
+
+var _cheerio2 = _interopRequireDefault(_cheerio);
+
+var _uploadImgur = require('../lib/uploadImgur');
+
+var _uploadImgur2 = _interopRequireDefault(_uploadImgur);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const getAqiMessage = () => {
   return new Promise((resolve, reject) => {
-    request({
+    (0, _request2.default)({
       url: 'https://taqm.epa.gov.tw/taqm/aqs.ashx?act=MaintainLine&lang=tw', // 中央氣象空品訊息
       method: 'GET'
     }, (error, response, body) => {
       if (error || !body) {
         resolve('');
       }
-      const $ = cheerio.load(body); // 載入 body
+      const $ = _cheerio2.default.load(body); // 載入 body
       // 回傳結果
       resolve($.text());
     });
@@ -21,14 +37,14 @@ const getAqiMessage = () => {
 const getImage = () => {
   return new Promise((resolve, reject) => {
     const imgAqi = 'https://taqm.epa.gov.tw/taqm/chart/Pollutant/map.aspx?param=33&hour=0&noarea=true';
-    uploadImgur(imgAqi).then((res) => {
+    (0, _uploadImgur2.default)(imgAqi).then(res => {
       console.log(res);
       resolve(res);
     });
   });
 };
 
-export default {
+exports.default = {
   getAqiMessage,
   getImage
 };

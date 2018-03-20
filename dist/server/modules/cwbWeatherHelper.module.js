@@ -1,9 +1,25 @@
-import request from 'request';
-import cheerio from 'cheerio';
-import uploadImgur from '../lib/uploadImgur';
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _request = require('request');
+
+var _request2 = _interopRequireDefault(_request);
+
+var _cheerio = require('cheerio');
+
+var _cheerio2 = _interopRequireDefault(_cheerio);
+
+var _uploadImgur = require('../lib/uploadImgur');
+
+var _uploadImgur2 = _interopRequireDefault(_uploadImgur);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // 取得縣市 Token
-const getCityToken = (city) => {
+const getCityToken = city => {
   switch (city) {
     case '全臺':
       return 'W50';
@@ -57,17 +73,17 @@ const getCityToken = (city) => {
 };
 
 // 天氣小幫手
-const getWeatherMessage = (city) => {
+const getWeatherMessage = city => {
   const cityToken = getCityToken(city);
   return new Promise((resolve, reject) => {
-    request({
+    (0, _request2.default)({
       url: `http://www.cwb.gov.tw/V7/forecast/taiwan/Data/${cityToken}.txt`, // 中央氣象局網頁
       method: 'GET'
     }, (error, response, body) => {
       if (error || !body) {
         resolve('');
       }
-      const $ = cheerio.load(body); // 載入 body
+      const $ = _cheerio2.default.load(body); // 載入 body
       // 回傳結果
       resolve($.text());
     });
@@ -77,16 +93,16 @@ const getWeatherMessage = (city) => {
 // 紅外線雲圖
 const getImage = () => {
   return new Promise((resolve, reject) => {
-    request({
+    (0, _request2.default)({
       url: 'http://www.cwb.gov.tw/V7/observe/', // 中央氣象局網頁
       method: 'GET'
     }, (error, response, body) => {
       if (error || !body) {
         return;
       }
-      const $ = cheerio.load(body); // 載入 body
+      const $ = _cheerio2.default.load(body); // 載入 body
       const imgRainFall = `http://www.cwb.gov.tw/${$('.newpic01 img').eq(2).attr('src')}`; // 爬最外層的 Table(class=BoxTable) 中的 tr
-      uploadImgur(imgRainFall).then((res) => {
+      (0, _uploadImgur2.default)(imgRainFall).then(res => {
         console.log(res);
         resolve(res);
       });
@@ -94,7 +110,7 @@ const getImage = () => {
   });
 };
 
-export default {
+exports.default = {
   getCityToken,
   getWeatherMessage,
   getImage
