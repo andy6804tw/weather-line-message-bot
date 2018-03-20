@@ -34,11 +34,11 @@ describe('目前天氣', () => {
 });
 
 describe('空氣品質', () => {
-  it('should return AQI message', async () => {
-    const result = await cwbCurrentAqi.getAqiMessage();
-    expect(result).to.be.a('string');
-    expect(result).to.not.have.string('404');
-  });
+  // it('should return AQI message', async () => {
+  //   const result = await cwbCurrentAqi.getAqiMessage();
+  //   expect(result).to.be.a('string');
+  //   expect(result).to.not.have.string('404');
+  // });
   it('should return AQI image', async () => {
     const result = await cwbCurrentAqi.getImage();
     expect(result.url).to.be.a('string');
