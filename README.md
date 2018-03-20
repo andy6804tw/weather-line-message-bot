@@ -1,4 +1,4 @@
-[![GitHub license][travis-image]][travis-url]
+[![GitHub travis][travis-image]][travis-url]
 [![GitHub license][license-image]][license-url]
 # Line 氣象機器人 Weather Bot
 
