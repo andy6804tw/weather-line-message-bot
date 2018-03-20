@@ -1,14 +1,41 @@
-import async from 'async';
+'use strict';
 
-import cwbWeatherHelperModel from '../modules/cwbWeatherHelper.module';
-import cwbEarthquack from '../modules/cwbEarthquack.module';
-import cwbCurrentWeather from '../modules/cwbCurrentWeather.module';
-import cwbCurrentUva from '../modules/cwbCurrentUva.module';
-import cwbCurrentAqi from '../modules/cwbCurrentAqi.module';
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-const replyMessage = (event) => {
+var _async = require('async');
+
+var _async2 = _interopRequireDefault(_async);
+
+var _cwbWeatherHelper = require('../modules/cwbWeatherHelper.module');
+
+var _cwbWeatherHelper2 = _interopRequireDefault(_cwbWeatherHelper);
+
+var _cwbEarthquack = require('../modules/cwbEarthquack.module');
+
+var _cwbEarthquack2 = _interopRequireDefault(_cwbEarthquack);
+
+var _cwbCurrentWeather = require('../modules/cwbCurrentWeather.module');
+
+var _cwbCurrentWeather2 = _interopRequireDefault(_cwbCurrentWeather);
+
+var _cwbCurrentUva = require('../modules/cwbCurrentUva.module');
+
+var _cwbCurrentUva2 = _interopRequireDefault(_cwbCurrentUva);
+
+var _cwbCurrentAqi = require('../modules/cwbCurrentAqi.module');
+
+var _cwbCurrentAqi2 = _interopRequireDefault(_cwbCurrentAqi);
+
+var _uploadImgur = require('../lib/uploadImgur');
+
+var _uploadImgur2 = _interopRequireDefault(_uploadImgur);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const replyMessage = event => {
   if (event.message.type === 'text') {
-    console.log(event.message.text);
     if (event.message.text.indexOf('概況') > -1) {
       /* 平行化序列
        * 同時取得縣市概況描述(message)+紅外線雲圖(image)並同時回傳圖片和文字訊息
@@ -18,39 +45,35 @@ const replyMessage = (event) => {
 
       // 取得縣市名稱 ex: 臺北市概況 => 臺北市
       const city = event.message.text.split('概況')[0].trim();
-      async.parallel({
+      _async2.default.parallel({
         message(callback) {
-          cwbWeatherHelperModel.getWeatherMessage(city).then((resd) => {
-            callback(null, resd);
+          _cwbWeatherHelper2.default.getWeatherMessage(city).then(res => {
+            callback(null, res);
           });
         },
         image(callback) {
           // 取得紅外線雲圖
-          cwbWeatherHelperModel.getImage().then((result) => {
-            callback(null, result);
+          _cwbWeatherHelper2.default.getInfraredCloudMap().then(resUrl => {
+            (0, _uploadImgur2.default)(resUrl).then(res => {
+              callback(null, res);
+            });
           });
         }
       }, (err, results) => {
         if (!results.image.success) {
-          event.reply([
-            {
-              type: 'text', text: results.image.url
-            },
-            { type: 'text', text: results.message }
-          ]);
+          event.reply([{
+            type: 'text', text: results.image.url
+          }, { type: 'text', text: results.message }]);
         } else {
-          event.reply([
-            {
-              type: 'image',
-              originalContentUrl: results.image.url,
-              previewImageUrl: results.image.url
-            },
-            { type: 'text', text: results.message }
-          ]);
+          event.reply([{
+            type: 'image',
+            originalContentUrl: results.image.url,
+            previewImageUrl: results.image.url
+          }, { type: 'text', text: results.message }]);
         }
       });
     } else if (event.message.text.indexOf('地震') > -1) {
-      cwbEarthquack.getImage().then((result) => {
+      _cwbEarthquack2.default.getImage().then(result => {
         if (!result.success) {
           // 團片上傳失敗回應網址
           event.reply({ type: 'text', text: result.url });
@@ -60,7 +83,7 @@ const replyMessage = (event) => {
         }
       });
     } else if (event.message.text.indexOf('目前天氣') > -1) {
-      cwbCurrentWeather.getImage().then((result) => {
+      _cwbCurrentWeather2.default.getImage().then(result => {
         if (!result.success) {
           // 團片上傳失敗回應網址
           event.reply({ type: 'text', text: result.url });
@@ -70,7 +93,7 @@ const replyMessage = (event) => {
         }
       });
     } else if (event.message.text.indexOf('紫外線') > -1) {
-      cwbCurrentUva.getImage().then((result) => {
+      _cwbCurrentUva2.default.getImage().then(result => {
         if (!result.success) {
           // 團片上傳失敗回應網址
           event.reply({ type: 'text', text: result.url });
@@ -80,41 +103,35 @@ const replyMessage = (event) => {
         }
       });
     } else if (event.message.text.indexOf('空氣品質') > -1) {
-      async.parallel({
+      _async2.default.parallel({
         image(callback) {
           // 取得全台空氣品質圖
-          cwbCurrentAqi.getImage().then((resUrl) => {
+          _cwbCurrentAqi2.default.getImage().then(resUrl => {
             callback(null, resUrl);
           });
         },
         message(callback) {
           // 取得空氣品質訊息
-          cwbCurrentAqi.getAqiMessage().then((res) => {
+          _cwbCurrentAqi2.default.getAqiMessage().then(res => {
             callback(null, res);
           });
         }
       }, (err, results) => {
         if (!results.image.success) {
-          event.reply([
-            {
-              type: 'text', text: results.image.url
-            },
-            { type: 'text', text: results.message }
-          ]);
+          event.reply([{
+            type: 'text', text: results.image.url
+          }, { type: 'text', text: results.message }]);
         } else {
-          event.reply([
-            {
-              type: 'image',
-              originalContentUrl: results.image.url,
-              previewImageUrl: results.image.url
-            },
-            { type: 'text', text: results.message }
-          ]);
+          event.reply([{
+            type: 'image',
+            originalContentUrl: results.image.url,
+            previewImageUrl: results.image.url
+          }, { type: 'text', text: results.message }]);
         }
       });
     } else {
       const message = `哈囉您好！歡迎使用天氣小幫手☀ ☁ ☂，目前支援指令，以及其說明：
-      \n【快速按鈕使用】\n- 全臺概況(圖)\n- 目前天氣(圖)\n- 空氣品質(圖)\n- 紫外線(圖)\n- 地震(圖)
+      \n【快速按鈕使用】\n- 全臺概況(圖)\n- 全臺概況(圖)\n- 目前天氣(圖)\n- 空氣品質(圖)\n- 紫外線(圖)\n- 地震(圖)
       \n【進階指令】\n1. 縣市概況：\n在對話框輸入(台灣的縣市+概況)即可查詢一日天氣狀況描述與即時紅外線雲圖。\n例如：臺南市概況、臺中市概況
       `;
       event.reply({ type: 'text', text: message });
@@ -125,8 +142,7 @@ const test = (req, res) => {
   res.send('測試');
 };
 
-
-export default {
+exports.default = {
   replyMessage,
   test
 };
