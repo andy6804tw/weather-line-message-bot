@@ -9,7 +9,7 @@ const getImage = () => {
       method: 'GET'
     }, (error, response, body) => {
       if (error || !body) {
-        return;
+        resolve('');
       }
       const $ = cheerio.load(body); // 載入 body
       const tableTr = $('.BoxTable tr'); // 爬最外層的 Table(class=BoxTable) 中的 tr

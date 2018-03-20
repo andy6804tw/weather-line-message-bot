@@ -12,6 +12,10 @@ var _cheerio = require('cheerio');
 
 var _cheerio2 = _interopRequireDefault(_cheerio);
 
+var _uploadImgur = require('../lib/uploadImgur');
+
+var _uploadImgur2 = _interopRequireDefault(_uploadImgur);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // 取得縣市 Token
@@ -71,14 +75,13 @@ const getCityToken = city => {
 // 天氣小幫手
 const getWeatherMessage = city => {
   const cityToken = getCityToken(city);
-  console.log(cityToken);
   return new Promise((resolve, reject) => {
     (0, _request2.default)({
       url: `http://www.cwb.gov.tw/V7/forecast/taiwan/Data/${cityToken}.txt`, // 中央氣象局網頁
       method: 'GET'
     }, (error, response, body) => {
       if (error || !body) {
-        return;
+        reject(error);
       }
       const $ = _cheerio2.default.load(body); // 載入 body
       // 回傳結果
@@ -88,7 +91,7 @@ const getWeatherMessage = city => {
 };
 
 // 紅外線雲圖
-const getInfraredCloudMap = () => {
+const getImage = () => {
   return new Promise((resolve, reject) => {
     (0, _request2.default)({
       url: 'http://www.cwb.gov.tw/V7/observe/', // 中央氣象局網頁
@@ -99,7 +102,10 @@ const getInfraredCloudMap = () => {
       }
       const $ = _cheerio2.default.load(body); // 載入 body
       const imgRainFall = `http://www.cwb.gov.tw/${$('.newpic01 img').eq(2).attr('src')}`; // 爬最外層的 Table(class=BoxTable) 中的 tr
-      resolve(imgRainFall);
+      (0, _uploadImgur2.default)(imgRainFall).then(res => {
+        console.log(res);
+        resolve(res);
+      });
     });
   });
 };
@@ -107,5 +113,5 @@ const getInfraredCloudMap = () => {
 exports.default = {
   getCityToken,
   getWeatherMessage,
-  getInfraredCloudMap
+  getImage
 };

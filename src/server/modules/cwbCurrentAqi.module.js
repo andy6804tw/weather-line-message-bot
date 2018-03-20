@@ -9,7 +9,7 @@ const getAqiMessage = () => {
       method: 'GET'
     }, (error, response, body) => {
       if (error || !body) {
-        return;
+        resolve('');
       }
       const $ = cheerio.load(body); // 載入 body
       // 回傳結果

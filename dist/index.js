@@ -16,7 +16,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const http = require('http');
 
-if (module.parent) {
+if (!module.parent) {
   // listen on port config.port
   http.createServer(_express2.default).listen(process.env.PORT || _config2.default.port, () => {
     console.log(`server started on  port http://127.0.0.1:${_config2.default.port} (${_config2.default.env})`);

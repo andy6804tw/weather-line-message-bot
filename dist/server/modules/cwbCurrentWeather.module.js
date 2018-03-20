@@ -29,8 +29,6 @@ const getImage = () => {
       }
       const $ = _cheerio2.default.load(body); // 載入 body
       const imgUrl = `https://www.cwb.gov.tw${$('img').attr('src')}`;
-      // 在終端機(console)列出結果
-      console.log(imgUrl);
       (0, _uploadImgur2.default)(imgUrl).then(res => {
         console.log(res);
         resolve(res);

@@ -9,7 +9,7 @@ const getImage = () => {
       method: 'GET'
     }, (error, response, body) => {
       if (error || !body) {
-        return;
+        resolve('');
       }
       const $ = cheerio.load(body); // 載入 body
       const imgUrl = `https://www.cwb.gov.tw${$('img').attr('src')}`;

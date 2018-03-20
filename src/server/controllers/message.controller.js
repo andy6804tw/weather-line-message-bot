@@ -1,10 +1,11 @@
 import async from 'async';
 
 import cwbWeatherHelperModel from '../modules/cwbWeatherHelper.module';
-import cwbEarthquack from '../modules/cwbEarthquack.module';
 import cwbCurrentWeather from '../modules/cwbCurrentWeather.module';
-import cwbCurrentUva from '../modules/cwbCurrentUva.module';
 import cwbCurrentAqi from '../modules/cwbCurrentAqi.module';
+import cwbCurrentUva from '../modules/cwbCurrentUva.module';
+import cwbEarthquack from '../modules/cwbEarthquack.module';
+
 
 const replyMessage = (event) => {
   if (event.message.type === 'text') {
@@ -49,8 +50,8 @@ const replyMessage = (event) => {
           ]);
         }
       });
-    } else if (event.message.text.indexOf('地震') > -1) {
-      cwbEarthquack.getImage().then((result) => {
+    } else if (event.message.text.indexOf('目前天氣') > -1) {
+      cwbCurrentWeather.getImage().then((result) => {
         if (!result.success) {
           // 團片上傳失敗回應網址
           event.reply({ type: 'text', text: result.url });
@@ -59,8 +60,8 @@ const replyMessage = (event) => {
           event.reply({ type: 'image', originalContentUrl: result.url, previewImageUrl: result.url });
         }
       });
-    } else if (event.message.text.indexOf('目前天氣') > -1) {
-      cwbCurrentWeather.getImage().then((result) => {
+    } else if (event.message.text.indexOf('地震') > -1) {
+      cwbEarthquack.getImage().then((result) => {
         if (!result.success) {
           // 團片上傳失敗回應網址
           event.reply({ type: 'text', text: result.url });
@@ -94,7 +95,9 @@ const replyMessage = (event) => {
           });
         }
       }, (err, results) => {
-        if (!results.image.success) {
+        if (!results.message) {
+          event.reply({ type: 'image', originalContentUrl: results.image.url, previewImageUrl: results.image.url });
+        } else if (!results.image.success) {
           event.reply([
             {
               type: 'text', text: results.image.url
