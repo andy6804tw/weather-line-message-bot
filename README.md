@@ -1,12 +1,14 @@
 [![GitHub travis][travis-image]][travis-url]
 [![GitHub license][license-image]][license-url]
+[![Coverage Status](https://coveralls.io/repos/github/andy6804tw/Mocha-Chai-tutorial/badge.svg?branch=master)](coverage-url)
+
 # Line 氣象機器人 Weather Bot
 
 ## QR code of Weather bot
 Use this QR code to add your bot as a friend.
 You can also add bot to join your group chats.
 
-![qrcode]("./Screenshoot/qrcode.png")
+<img src="./Screenshoot/qrcode.png">
 
 ## Features
 目前支援指令，以及其說明：
@@ -79,11 +81,12 @@ in building
 - [LINE BOT API (third-party)](https://github.com/boybundit/linebot)
 - [Messaging API Document (official)](https://developers.line.me/en/docs/messaging-api/getting-started/)
 
+## LICENSE
+MIT
 
 [travis-image]: https://travis-ci.org/andy6804tw/weather-line-message-bot.svg?branch=master
 [travis-url]: https://travis-ci.org/andy6804tw/weather-line-message-bot
 [license-image]: https://img.shields.io/npm/l/express.svg?registry_uri=https%3A%2F%2Fregistry.npmjs.com
 [license-url]: https://github.com/andy6804tw/weather-line-message-bot/blob/master/LICENSE
+[coverage-url]:https://coveralls.io/github/andy6804tw/Mocha-Chai-tutorial?branch=master
 
-## LICENSE
-MIT

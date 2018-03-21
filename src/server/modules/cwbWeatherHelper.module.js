@@ -64,9 +64,6 @@ const getWeatherMessage = (city) => {
       url: `http://www.cwb.gov.tw/V7/forecast/taiwan/Data/${cityToken}.txt`, // 中央氣象局網頁
       method: 'GET'
     }, (error, response, body) => {
-      if (error || !body) {
-        resolve('');
-      }
       const $ = cheerio.load(body); // 載入 body
       // 回傳結果
       resolve($.text());
@@ -81,9 +78,6 @@ const getImage = () => {
       url: 'http://www.cwb.gov.tw/V7/observe/', // 中央氣象局網頁
       method: 'GET'
     }, (error, response, body) => {
-      if (error || !body) {
-        return;
-      }
       const $ = cheerio.load(body); // 載入 body
       const imgRainFall = `http://www.cwb.gov.tw/${$('.newpic01 img').eq(2).attr('src')}`; // 爬最外層的 Table(class=BoxTable) 中的 tr
       uploadImgur(imgRainFall).then((res) => {
