@@ -1,7 +1,6 @@
 [![GitHub travis][travis-image]][travis-url]
 [![GitHub license][license-image]][license-url]
-[![Coverage Status](https://coveralls.io/repos/github/andy6804tw/Mocha-Chai-tutorial/badge.svg?branch=master)](coverage-url)
-
+[![Coverage Status](https://coveralls.io/repos/github/andy6804tw/weather-line-message-bot/badge.svg?branch=master)](coverage-url)
 # Line 氣象機器人 Weather Bot
 
 ## QR code of Weather bot
@@ -89,5 +88,5 @@ MIT
 [travis-url]: https://travis-ci.org/andy6804tw/weather-line-message-bot
 [license-image]: https://img.shields.io/npm/l/express.svg?registry_uri=https%3A%2F%2Fregistry.npmjs.com
 [license-url]: https://github.com/andy6804tw/weather-line-message-bot/blob/master/LICENSE
-[coverage-url]:https://coveralls.io/github/andy6804tw/Mocha-Chai-tutorial?branch=master
+[coverage-url]: https://coveralls.io/github/andy6804tw/weather-line-message-bot?branch=master
 
