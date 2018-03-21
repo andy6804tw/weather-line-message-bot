@@ -8,9 +8,6 @@ const getImage = () => {
       url: 'http://www.cwb.gov.tw/V7/modules/MOD_EC_Home.htm', // 中央氣象局網頁
       method: 'GET'
     }, (error, response, body) => {
-      if (error || !body) {
-        resolve('');
-      }
       const $ = cheerio.load(body); // 載入 body
       const tableTr = $('.BoxTable tr'); // 爬最外層的 Table(class=BoxTable) 中的 tr
       const tableTd = tableTr.eq(1).find('td'); // 擷取每個欄位(td)

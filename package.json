@@ -13,7 +13,8 @@
     "debug": "nodemon src/index.js --exec babel-node",
     "build": "babel src -d dist",
     "serve": "node dist/index.js",
-    "test": "mocha --require babel-register --timeout 60000"
+    "test": "nyc mocha --require babel-register --timeout 60000",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
     "async": "^2.6.0",
@@ -37,10 +38,12 @@
     "babel-preset-stage-2": "^6.24.1",
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
+    "coveralls": "^3.0.0",
     "eslint": "^4.12.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "mocha": "^4.1.0",
+    "nyc": "^11.6.0",
     "should": "^13.2.1",
     "supertest": "^3.0.0",
     "webpack": "^3.9.1",

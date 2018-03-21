@@ -8,9 +8,6 @@ const getImage = () => {
       url: 'https://www.cwb.gov.tw/V7/modules/Real_Image.htm', // 中央氣象局網頁
       method: 'GET'
     }, (error, response, body) => {
-      if (error || !body) {
-        resolve('');
-      }
       const $ = cheerio.load(body); // 載入 body
       const imgUrl = `https://www.cwb.gov.tw${$('img').attr('src')}`;
       uploadImgur(imgUrl).then((res) => {

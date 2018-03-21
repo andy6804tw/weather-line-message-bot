@@ -9,9 +9,6 @@ const getImage = () => {
       url: 'http://www.cwb.gov.tw/V7/observe/', // 中央氣象局網頁
       method: 'GET'
     }, (error, response, body) => {
-      if (error || !body) {
-        resolve('');
-      }
       const $ = cheerio.load(body); // 載入 body
       const imgUva = `http://www.cwb.gov.tw/${$('.newpic01 img').eq(6).attr('src')}`; // 爬最外層的 Table(class=BoxTable) 中的 tr
       uploadImgur(imgUva).then((res) => {

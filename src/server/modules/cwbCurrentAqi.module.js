@@ -8,11 +8,13 @@ const getAqiMessage = () => {
       url: 'https://taqm.epa.gov.tw/taqm/aqs.ashx?act=MaintainLine&lang=tw', // 中央氣象空品訊息
       method: 'GET'
     }, (error, response, body) => {
-      if (error || !body) {
-        resolve('');
-      }
       const $ = cheerio.load(body); // 載入 body
       // 回傳結果
+      // if ($.text() == null) {
+      //   resolve('');
+      // } else {
+      //   resolve($.text());
+      // }
       resolve($.text());
     });
   });
