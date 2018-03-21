@@ -54,7 +54,8 @@ After completing the [installation](#installation) step, you're ready to start t
 | debug | Develop status |
 | build | Deploy project to product |
 | serve | Pfficially online in server |
-| test  | Unit testing with mocha |
+| test  | Unit testing with mocha|
+| coverage | using istanbuljs/ync calculate coverage |
 
 ### Settings and Customizing
 #### API Keys
